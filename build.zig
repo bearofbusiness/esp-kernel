@@ -6,14 +6,14 @@ pub fn build(b: *std.Build) void {
     });
 
     const target = b.standardTargetOptions(.{
-        // .default_target = .{
-        //     .cpu_arch = .xtensa,
-        //     // .cpu_model = .{
-        //     //     .explicit = &(std.Target.xtensa.cpu.generic),
-        //     // },
-        //     .os_tag = .freestanding,
-        //     .abi = .none,
-        // },
+        .default_target = .{
+            .cpu_arch = .xtensa,
+            .cpu_model = .{
+                .explicit = &(std.Target.xtensa.cpu.esp32), // this may show an error but dont worry its in the nix develop
+            },
+            .os_tag = .freestanding,
+            .abi = .none,
+        },
     });
 
     const exe = b.addExecutable(.{
