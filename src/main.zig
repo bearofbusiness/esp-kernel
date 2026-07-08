@@ -4,5 +4,12 @@ pub extern const _bss_start: usize;
 pub extern const _bss_end: usize;
 
 export fn call_start_cpu0() callconv(.c) noreturn {
-    while (true) {}
+    // asm volatile (
+    //     \\ movl %[stack_top], %%
+    // );
+    defer while (true) {};
+}
+
+fn start() callconv(.c) noreturn {
+    defer while (true) {};
 }
