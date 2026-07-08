@@ -64,7 +64,7 @@
 
             shellHook = ''
               echo "ESP32 Xtensa Zig shell"
-              echo "zig build -Dtarget=xtensa-freestanding-none -Dcpu=esp32 --release=small"
+              echo "./run.sh"
             '';
           };
         });
