@@ -17,15 +17,22 @@ SECTIONS
   /* IRAM sections: startup code, tiny text sections, interrupt code */
   .text :
   {
-   KEEP(*(.entry))
-    *(.text)
-    *(.text.*)
-    *(.rodata)
-    *(.rodata.*)
-    *(.literal)
+    . ALIGN(4);
+
+    *(.literal) 
     *(.literal.*)
     *(.lit4)
     *(.lit4.*)
+
+    KEEP(*(.entry))
+    KEEP(*(.entry.*))
+
+    *(.text)
+    *(.text.*)
+    
+    *(.rodata)
+    *(.rodata.*)
+
   } > iram
 
   /* DRAM sections: stack, bss, data, early rodata */
