@@ -29,11 +29,13 @@ SECTIONS
 
     *(.text)
     *(.text.*)
-    
+  } > iram
+
+  .rodata :
+  {
     *(.rodata)
     *(.rodata.*)
-
-  } > iram
+  } > dram
 
   /* DRAM sections: stack, bss, data, early rodata */
   .data :

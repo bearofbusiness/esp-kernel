@@ -11,20 +11,43 @@ export fn call_start_cpu0() callconv(.c) noreturn {
         :
         : [stack_top] "r" (@intFromPtr(&_stack_top)),
         : .{ .a1 = true });
-    startShim();
-}
-
-// idk i just want to use zig callconv
-fn startShim() callconv(.c) noreturn {
     start();
     while (true) {}
 }
 
 fn start() void {
-    var i: usize = 0;
+    //var i: usize = 0;
     const bss: [*]u8 = @ptrCast(@constCast(&_bss_start));
-    const max = @intFromPtr(&_bss_start) - @intFromPtr(&_bss_end);
-    while (i < max) : (i += 1) {
-        bss[i] = 0;
+    const max = @intFromPtr(&_bss_end) - @intFromPtr(&_bss_start);
+    // while (i < max) : (i += 1) {
+    //     bss[i] = 0;
+    // }
+    @memset(bss[0..max], 0);
+
+    uart0Write("testprint lol\n\r");
+}
+
+const UART0_BASE = 0x3FF40000;
+const UART0_FIFO = UART0_BASE + 0x00;
+const UART0_STATUS = UART0_BASE + 0x1C;
+
+fn uart0CharWrite(c: u8) void {
+    while (mmioRead32(UART0_STATUS) >> 16 & 0xff >= 127) {}
+    mmioWrite32(UART0_FIFO, c);
+}
+
+fn uart0Write(str: []const u8) void {
+    for (str) |c| {
+        uart0CharWrite(c);
     }
+}
+
+fn mmioWrite32(address: usize, value: usize) void {
+    const ptr: *volatile usize = @ptrFromInt(address);
+    ptr.* = value;
+}
+
+fn mmioRead32(address: usize) usize {
+    const ptr: *volatile usize = @ptrFromInt(address);
+    return ptr.*;
 }
