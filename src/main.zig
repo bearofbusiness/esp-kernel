@@ -51,3 +51,10 @@ fn mmioRead32(address: usize) usize {
     const ptr: *volatile usize = @ptrFromInt(address);
     return ptr.*;
 }
+
+const RTC_CNTL_BASE = 0x3FF48000;
+
+const RTC_CNTL_WDTCONFIG0 = 0x3FF4808C;
+const RTC_CNTL_WDTFEED = 0x3FF480A0;
+const RTC_CNTL_WDTWPROTECT = 0x3FF480A4;
+const RTC_CNTL_WDT_WKEY = 0x50D83AA1;
